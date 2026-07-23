@@ -64,15 +64,9 @@ jobs:
       - name: Checkout do Código
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js (v20)
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Subir a Aplicação Alvo
+      - name: Subir OWASP Juice Shop via Docker Container
         run: |
-          npm ci
-          npm start &
+          docker run -d --name juiceshop -p 3000:3000 bkimminich/juice-shop
           npx wait-on http://localhost:3000 --timeout 120000
 
       - name: Executar OWASP ZAP Baseline Scan
